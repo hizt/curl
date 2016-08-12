@@ -30,7 +30,6 @@ class Curl
 
     private $setContented = false; //con是不是外部设置的，如果是外部设置的那么preg的时候，不需要验证状态码
 
-
 	function __construct()  //$gzip 表示该网页是否经过压缩,如果为ture则会进行gzip解码
 	{
         $this->curl = curl_init();
