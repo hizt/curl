@@ -25,6 +25,7 @@ class Curl
     //运行后的结果
     private $resultContent; //curl_exec的结果中的网页内容
     private $resultHeader;  //curl_exec 的结果中的Head头
+    private $resultHttpCode;
     private $resultInfo; //curl_exec 的运行信息
     private $lastRequest ;
 
@@ -116,8 +117,11 @@ class Curl
     private static  function parsePostDataToString( $postData ){
         $re = '';
         if(!empty($postData)){
-            foreach($postData as $k=>$v)
-                $re.= "{$k}={$v}&";
+            foreach($postData as $k=>$v) {
+                $k = urlencode($k);
+                $v = urlencode($v);
+                $re .= "{$k}={$v}&";
+            }
         }
         return trim($re , '&');
     }
@@ -202,7 +206,6 @@ class Curl
             }
             return $temp;
         }
-
         else{
             foreach($data as $k=>$v)
                 $data[$k] = self::parseDataCharset($v , $inCharset , $outCharset);
@@ -253,6 +256,8 @@ class Curl
         curl_setopt($this->curl, CURLOPT_COOKIE , $this->getCookieString() );
 
         $result = curl_exec($this->curl) ;
+
+        $this->resultHttpCode = curl_getinfo($this->curl,CURLINFO_HTTP_CODE);
         $this->resultInfo = curl_getinfo($this->curl);
         $this->resultHeader =  substr( $result , 0 , $this->getResultHeaderSize()); //ResultHeader 不需要编码转换
         $this->resultContent =  $this->parseDataCharset( substr($result , $this->getResultHeaderSize() ) , $this->getCharset() ,self::CHARSET_UTF8 ); //ResultContent 需要编码转换
@@ -284,6 +289,10 @@ class Curl
 
     public function getResultHeader(){
         return $this->resultHeader;
+    }
+
+    public function getResultHttpCode(){
+        return $this->resultHttpCode;
     }
 
 
