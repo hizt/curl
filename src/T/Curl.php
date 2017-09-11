@@ -173,9 +173,8 @@ class Curl
         if(is_string($cookie)) {
             $temp = explode(';', trim($cookie));
             foreach ($temp as $k => $v) {
-                list($key, $val) = explode('=', trim($v));
-                if ($val)
-                    $re[$key] = $val;
+                $kv = explode('=' , $v,  2);
+                $re[$kv[0]] = isset($kv[1]) ? $kv[1] : '';
             }
         }
 
