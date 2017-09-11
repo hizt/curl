@@ -182,10 +182,9 @@ class Curl
             foreach($cookie as $k=>$v){
                 $v = trim( trim($v) , ';' );
                 if(is_numeric($k)){
-                    list($key , $val) = explode( '=',trim($cookie));
-                    $re[$key] = $val;
+                    $kv = explode('=' , $v,  2);
+                    $re[$kv[0]] = isset($kv[1]) ? $kv[1] : '';
                 }
-
                 else
                     $re[$k] = $v;
             }
