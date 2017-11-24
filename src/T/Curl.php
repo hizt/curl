@@ -3,7 +3,7 @@ namespace T;
 
 /**
  * Class T\Curl
- * version : 2.0.1
+ * version : 1.1
  */
 
 class Curl
