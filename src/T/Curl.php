@@ -118,9 +118,9 @@ class Curl
         $re = '';
         if(!empty($postData)){
             foreach($postData as $k=>$v) {
-                $k = urlencode($k);
-                $v = urlencode($v);
-                $re .= "{$k}={$v}&";
+//                $k = urlencode($k);
+//                $v = urlencode($v);
+                $re .= ($k && !is_numeric($k) ? "{$k}={$v}&" : "{$v}&");
             }
         }
         return trim($re , '&');
